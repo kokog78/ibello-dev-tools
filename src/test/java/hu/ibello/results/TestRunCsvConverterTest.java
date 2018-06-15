@@ -152,6 +152,7 @@ public class TestRunCsvConverterTest {
 	
 	private TestRun testRun() {
 		TestRun result = new TestRun();
+		result.setId("id");
 		result.setName("test");
 		result.setStartTime(date(1));
 		result.setEndTime(date(2));
@@ -174,6 +175,7 @@ public class TestRunCsvConverterTest {
 	}
 	
 	private <T extends ParentElement> T fillParent(T parent) {
+		parent.setId("id");
 		parent.setSuccessCount(10);
 		parent.setFailureCount(11);
 		parent.setErrorCount(12);

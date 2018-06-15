@@ -17,6 +17,7 @@ import hu.ibello.model.TestRun;
 public class TestRunCsvConverter {
 	
 	private final static String[] COLUMNS = new String[] {
+			"ID",
 			"NAME",
 			"LEVEL",
 			"INDEX",
@@ -53,6 +54,7 @@ public class TestRunCsvConverter {
 		}
 		newLine();
 		
+		append();
 		append(source.getName());
 		append(0);
 		append(0);
@@ -93,6 +95,7 @@ public class TestRunCsvConverter {
 	}
 	
 	private void appendParent(ParentElement source, int level, int index) {
+		append(source.getId());
 		append(source.getName());
 		append(level);
 		append(index);
@@ -115,6 +118,7 @@ public class TestRunCsvConverter {
 	}
 	
 	private void append(Element source, int level, int index) {
+		append();
 		append(source.getName());
 		append(level);
 		append(index);

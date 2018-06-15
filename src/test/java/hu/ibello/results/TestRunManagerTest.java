@@ -43,6 +43,7 @@ public class TestRunManagerTest {
 	@Test
 	public void toXmlString_creates_xml_string() throws Exception {
 		TestRun input = new TestRun();
+		input.setId("id");
 		input.setName("Test run");
 		input.setBaseDirectory("/home/xy");
 		input.setBrowser(BrowserKind.CHROME);
