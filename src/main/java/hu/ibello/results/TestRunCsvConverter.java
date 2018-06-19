@@ -19,6 +19,7 @@ public class TestRunCsvConverter {
 	private final static String[] COLUMNS = new String[] {
 			"ID",
 			"NAME",
+			"VERSION",
 			"LEVEL",
 			"INDEX",
 			"START_TIME",
@@ -54,8 +55,9 @@ public class TestRunCsvConverter {
 		}
 		newLine();
 		
-		append();
+		append(source.getId());
 		append(source.getName());
+		append();
 		append(0);
 		append(0);
 		append(source.getStartTime());
@@ -78,11 +80,11 @@ public class TestRunCsvConverter {
 		
 		int specIndex = 0;
 		for (SpecElement spec : source.getSpec()) {
-			appendParent(spec, 1, specIndex++);
+			appendParent(spec, 1, specIndex++, spec.getVersion());
 			newLine();
 			int testIndex = 0;
 			for (TestElement test : spec.getTest()) {
-				appendParent(test, 2, testIndex++);
+				appendParent(test, 2, testIndex++, null);
 				newLine();
 				int stepIndex = 0;
 				for (StepElement step : test.getStep()) {
@@ -94,9 +96,10 @@ public class TestRunCsvConverter {
 		return builder.toString();
 	}
 	
-	private void appendParent(ParentElement source, int level, int index) {
+	private void appendParent(ParentElement source, int level, int index, String version) {
 		append(source.getId());
 		append(source.getName());
+		append(version);
 		append(level);
 		append(index);
 		append();
@@ -120,6 +123,7 @@ public class TestRunCsvConverter {
 	private void append(Element source, int level, int index) {
 		append();
 		append(source.getName());
+		append();
 		append(level);
 		append(index);
 		append();
@@ -141,7 +145,7 @@ public class TestRunCsvConverter {
 	}
 	
 	private void appendStep(StepElement step, int level, int index) {
-		appendParent(step, level, index);
+		appendParent(step, level, index, null);
 		newLine();
 		int childCount = 0;
 		for (Element child : step.getChildren()) {

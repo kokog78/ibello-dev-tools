@@ -38,8 +38,8 @@ public class TestRunCsvConverterTest {
 		TestRun input = testRun();
 		String result = converter.toCsv(input);
 		assertThat(result.split("\n")).containsExactly(
-				"NAME,LEVEL,INDEX,START_TIME,END_TIME,DURATION_MS,OUTCOME,BROWSER,HEADLESS,TAGS,SUCCESS_COUNT,FAILURE_COUNT,ERROR_COUNT,PENDING_COUNT,SPEC_COUNT,TEST_COUNT,STEP_COUNT,EXPECTATION_COUNT,ACTION_COUNT",
-				"test,0,0,2000-01-01T00:00:00.000Z,2000-01-02T00:00:00.000Z,30000,SUCCESS,CHROME,true,\"one,two\",1,2,3,4,5,6,7,8,9"
+				"ID,NAME,VERSION,LEVEL,INDEX,START_TIME,END_TIME,DURATION_MS,OUTCOME,BROWSER,HEADLESS,TAGS,SUCCESS_COUNT,FAILURE_COUNT,ERROR_COUNT,PENDING_COUNT,SPEC_COUNT,TEST_COUNT,STEP_COUNT,EXPECTATION_COUNT,ACTION_COUNT",
+				"id,test,,0,0,2000-01-01T00:00:00.000Z,2000-01-02T00:00:00.000Z,30000,SUCCESS,CHROME,true,\"one,two\",1,2,3,4,5,6,7,8,9"
 			);
 	}
 	
@@ -49,7 +49,7 @@ public class TestRunCsvConverterTest {
 		input.setName("a \"name\"");
 		String result = converter.toCsv(input);
 		assertThat(result.split("\n")).contains(
-				"\"a \"\"name\"\"\",0,0,2000-01-01T00:00:00.000Z,2000-01-02T00:00:00.000Z,30000,SUCCESS,CHROME,true,\"one,two\",1,2,3,4,5,6,7,8,9"
+				"id,\"a \"\"name\"\"\",,0,0,2000-01-01T00:00:00.000Z,2000-01-02T00:00:00.000Z,30000,SUCCESS,CHROME,true,\"one,two\",1,2,3,4,5,6,7,8,9"
 			);
 	}
 	
@@ -57,13 +57,15 @@ public class TestRunCsvConverterTest {
 	public void toCsv_appends_specifications() throws Exception {
 		TestRun input = testRun();
 		SpecElement spec1 = fillParent(new SpecElement());
+		spec1.setVersion("1.0");
 		input.getSpec().add(spec1);
 		SpecElement spec2 = fillParent(new SpecElement());
+		spec2.setVersion("2.0");
 		input.getSpec().add(spec2);
 		String result = converter.toCsv(input);
 		assertThat(result.split("\n")).contains(
-				"SpecElement,1,0,,,20000,ERROR,,,,10,11,12,13,,,,,",
-				"SpecElement,1,1,,,20000,ERROR,,,,10,11,12,13,,,,,"
+				"id,SpecElement,1.0,1,0,,,20000,ERROR,,,,10,11,12,13,,,,,",
+				"id,SpecElement,2.0,1,1,,,20000,ERROR,,,,10,11,12,13,,,,,"
 			);
 	}
 	
@@ -78,8 +80,8 @@ public class TestRunCsvConverterTest {
 		spec1.getTest().add(test2);
 		String result = converter.toCsv(input);
 		assertThat(result.split("\n")).contains(
-				"TestElement,2,0,,,20000,ERROR,,,,10,11,12,13,,,,,",
-				"TestElement,2,1,,,20000,ERROR,,,,10,11,12,13,,,,,"
+				"id,TestElement,,2,0,,,20000,ERROR,,,,10,11,12,13,,,,,",
+				"id,TestElement,,2,1,,,20000,ERROR,,,,10,11,12,13,,,,,"
 			);
 	}
 	
@@ -96,8 +98,8 @@ public class TestRunCsvConverterTest {
 		test1.getStep().add(step2);
 		String result = converter.toCsv(input);
 		assertThat(result.split("\n")).contains(
-				"StepElement,3,0,,,20000,ERROR,,,,10,11,12,13,,,,,",
-				"StepElement,3,1,,,20000,ERROR,,,,10,11,12,13,,,,,"
+				"id,StepElement,,3,0,,,20000,ERROR,,,,10,11,12,13,,,,,",
+				"id,StepElement,,3,1,,,20000,ERROR,,,,10,11,12,13,,,,,"
 			);
 	}
 	
@@ -114,8 +116,8 @@ public class TestRunCsvConverterTest {
 		step1.getChildren().add(step2);
 		String result = converter.toCsv(input);
 		assertThat(result.split("\n")).contains(
-				"StepElement,3,0,,,20000,ERROR,,,,10,11,12,13,,,,,",
-				"StepElement,4,0,,,20000,ERROR,,,,10,11,12,13,,,,,"
+				"id,StepElement,,3,0,,,20000,ERROR,,,,10,11,12,13,,,,,",
+				"id,StepElement,,4,0,,,20000,ERROR,,,,10,11,12,13,,,,,"
 			);
 	}
 	
@@ -134,8 +136,8 @@ public class TestRunCsvConverterTest {
 		step1.getChildren().add(expect2);
 		String result = converter.toCsv(input);
 		assertThat(result.split("\n")).contains(
-				"ExpectationElement,4,0,,,20000,ERROR,,,,,,,,,,,,",
-				"ExpectationElement,4,1,,,20000,ERROR,,,,,,,,,,,,"
+				",ExpectationElement,,4,0,,,20000,ERROR,,,,,,,,,,,,",
+				",ExpectationElement,,4,1,,,20000,ERROR,,,,,,,,,,,,"
 			);
 	}
 	

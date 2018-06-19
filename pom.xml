@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>hu.ibello</groupId>
 	<artifactId>ibello-dev-tools</artifactId>
-	<version>1.1.0</version>
+	<version>1.2.0</version>
 	<name>Ibello Development Tools</name>
 	<description>Ibello is an easy-to-use automated test framework for web applications.</description>
 	<url>http://ibello.hu</url>
